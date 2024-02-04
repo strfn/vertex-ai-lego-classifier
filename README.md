@@ -41,13 +41,13 @@ The CLI automate the process of preparing the data set and then training the mod
 
  Generate training images from the videos an upload the dataset to a NEW Google Cloud Storage.
 
-╭─ Options ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
-│ *  --project            TEXT     Project ID hosting the training data [env var: LC_PROJECT_ID] [default: None] [required]                                                 │
-│    --img-width          INTEGER  Image width in pixels, height will maintain aspect ratio, [env var: LC_IMG_WIDTH] [default: 130]                                         │
-│    --bucket-name        TEXT     How to name the bucket for the training images. [env var: LC_BUCKET_NAME] [default: lcb-a34ade54e32b422e9c06d59f4bc61cd3]                │
-│    --region             TEXT     The region in which to upload the training data. [env var: LC_REGION] [default: us-central1]                                             │
-│    --help                        Show this message and exit.                                                                                                              │
-╰───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─ Options ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ *  --project            TEXT     Project ID hosting the training data [env var: LC_PROJECT_ID] [default: None] [required]                                       │
+│    --img-width          INTEGER  Image width in pixels, height will maintain aspect ratio, [env var: LC_IMG_WIDTH] [default: 130]                               │
+│    --bucket-name        TEXT     How to name the bucket for the training images. [env var: LC_BUCKET_NAME] [default: lcb-a34ade54e32b422e9c06d59f4bc61cd3]      │
+│    --region             TEXT     The region in which to upload the training data. [env var: LC_REGION] [default: us-central1]                                   │
+│    --help                        Show this message and exit.                                                                                                    │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
 ```
 
 ### Model training and deployment
@@ -73,4 +73,22 @@ The CLI automate the process of preparing the data set and then training the mod
 ╰────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
 
 
+```
+
+### Image classification
+
+```shell
+Usage: main.py inference [OPTIONS] FILENAME
+
+ Infer which mini figure is visible in an image.
+
+╭─ Arguments ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ *    filename      TEXT  File name of the image to classify. [default: None] [required]                                                                        │
+╰────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─ Options ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ *  --endpoint-id        TEXT  Model inference endpoint id. [env var: LC_ENDPOINT] [default: None] [required]                                                   │
+│ *  --project            TEXT  Project ID [env var: LC_PROJECT_ID] [default: None] [required]                                                                   │
+│    --region             TEXT  Region where the inference service is hosted. [env var: LC_REGION] [default: us-central1]                                        │
+│    --help                     Show this message and exit.                                                                                                      │
+╰────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 ```

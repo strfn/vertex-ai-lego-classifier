@@ -7,6 +7,7 @@ import google.cloud.aiplatform as aiplatform
 import typer
 
 import lfc.training as training
+from lfc.inference import get_inference_paramaters
 
 app = typer.Typer()
 
@@ -21,14 +22,14 @@ def data_prep(
         typer.Option(
             envvar="LC_PROJECT_ID",
             prompt="Google Project ID",
-            help="Project ID hosting the training data",
+            help="Project ID hosting the training data.",
         ),
     ],
     img_width: Annotated[
         int,
         typer.Option(
             envvar="LC_IMG_WIDTH",
-            help="Image width in pixels, height will maintain aspect ratio,",
+            help="Image width in pixels, height will maintain aspect ratio.",
         ),
     ] = 130,
     bucket_name: Annotated[
@@ -70,7 +71,7 @@ def train_model(
         typer.Option(
             envvar="LC_PROJECT_ID",
             prompt="Google Project ID",
-            help="Project ID",
+            help="Project ID.",
         ),
     ],
     staging_bucket_name: Annotated[
@@ -78,14 +79,14 @@ def train_model(
         typer.Option(
             envvar="LC_STAGING_BUCKET",
             prompt="Staging bucket name",
-            help="Staging bucket name",
+            help="Staging bucket name.",
         ),
     ],
     training_source_bucket: Annotated[
         str,
         typer.Argument(
             envvar="LC_BUCKET_NAME",
-            help="Training bucker name",
+            help="Training bucket name.",
         ),
     ],
     model_type: Annotated[
@@ -156,6 +157,53 @@ def train_model(
     print("............MODEL DEPLOYED............")
     print("......................................")
     print(f"\n reachable at: {endpoint}")
+
+
+@app.command(help="Infer which mini figure is visible in an image.")
+def inference(
+    endpoint_id: Annotated[
+        str,
+        typer.Option(
+            envvar="LC_ENDPOINT",
+            prompt="Endpoint ID",
+            help="Model inference endpoint id.",
+        ),
+    ],
+    project: Annotated[
+        str,
+        typer.Option(
+            envvar="LC_PROJECT_ID",
+            prompt="Google Project ID.",
+            help="Project ID",
+        ),
+    ],
+    filename: Annotated[
+        str, typer.Argument(help="File name of the image to classify.")
+    ],
+    region: Annotated[
+        str,
+        typer.Option(
+            envvar="LC_REGION", help="Region where the inference service is hosted."
+        ),
+    ] = "us-central1",
+):
+
+    # get the endpoint
+    endpoint = aiplatform.Endpoint(
+        endpoint_name=f"projects/{project}/locations/{region}/endpoints/{endpoint_id}",
+        project=project,
+        location=region,
+    )
+
+    # prepare the request
+    instances, parameters = get_inference_paramaters(filename)
+
+    # make the request and get the results
+    response = endpoint.predict(instances=instances, parameters=parameters)
+
+    print("Model predictions:")
+    for prediction in response.predictions:
+        print(f"\t{prediction}")
 
 
 if __name__ == "__main__":
