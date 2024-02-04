@@ -14,6 +14,7 @@ A few random items has been added to the training set (why not...)
 - pyenv (or any other preferred venv system)
 - Google cloud cli
 - Google cloud project
+- Videos in `.mov` format of the mini figure (or anything else) to train the model with into the `training_data/videos/` folder
 
 ```shell
 # Create and activate a virtual environment
