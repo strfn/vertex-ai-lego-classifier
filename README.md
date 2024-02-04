@@ -1,9 +1,10 @@
-# Lego classifier
+# Mini figures classifier
 
-Playground on using AutoML to classify lego minifigures.
+Playground on using AutoML to classify lego mini figures.
 
-Training data is generated extracting sample images from short videos taken of the minifigures.
-to avoid making the life to easy for the model the video has been taken in low light condition by a young child without any supervision or direction.
+Training data is generated extracting sample images from short videos of the mini figures.
+
+To make things more interesting the videos have been taken in low light condition by a young child without any supervision or direction.
 A few random items has been added to the training set (why not...)
 
 ![Minifigures video](/docs/stacked.gif)
@@ -29,7 +30,7 @@ gcloud auth application-default login
 ```
 
 ## Run it !
-The CLI automate the process of preparing the data set and then training the model. Paramaters can be set as `ENV` variables when indicated or simply passed as options to the CLI command.
+The CLI automate the process of preparing the data set and then training the model. Parameters can be set as `ENV` variables when indicated or simply passed as options to the CLI command.
 
 ### Data preparation
 
@@ -47,4 +48,29 @@ The CLI automate the process of preparing the data set and then training the mod
 │    --region             TEXT     The region in which to upload the training data. [env var: LC_REGION] [default: us-central1]                                             │
 │    --help                        Show this message and exit.                                                                                                              │
 ╰───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+```
+
+### Model training and deployment
+
+```shell
+./main.py train-model --help
+
+ Usage: main.py train-model [OPTIONS] TRAINING_SOURCE_BUCKET
+
+ Train and deploy the image classifier with Vertex AI AutoML.
+
+╭─ Arguments ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ *    training_source_bucket      TEXT  Training bucker name [env var: LC_BUCKET_NAME] [default: None] [required]                                               │
+╰────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─ Options ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ *  --project                    TEXT  Project ID [env var: LC_PROJECT_ID] [default: None] [required]                                                           │
+│ *  --staging-bucket-name        TEXT  Staging bucket name [env var: LC_STAGING_BUCKET] [default: None] [required]                                              │
+│    --model-type                 TEXT  Model type, see                                                                                                          │
+│                                       https://cloud.google.com/python/docs/reference/aiplatform/latest/google.cloud.aiplatform.AutoMLImageTrainingJob          │
+│                                       [default: CLOUD]                                                                                                         │
+│    --region                     TEXT  The where to train and host the model. [env var: LC_REGION] [default: us-central1]                                       │
+│    --help                             Show this message and exit.                                                                                              │
+╰────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+
+
 ```
