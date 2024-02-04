@@ -1,0 +1,6 @@
+typer[all]
+black
+pre-commit
+google-cloud-storage
+pandas
+google-cloud-aiplatform
